@@ -19,6 +19,18 @@ import UserFormModal from "../components/UserFormModal";
 const UserDetails = () => {
   const [open, setOpen] = useState(false);
 
+  let user = {
+    empID: 5,
+    firstName: "Arman",
+    lastName: "Saleh",
+    employeeType: "Employee",
+    divisionId: 1,
+    districeID: 3,
+    disvision: "Barisal       ",
+    district: "Bhola                         ",
+  };
+  const { empID, firstName, lastName, employeeType, disvision, district } =
+    user;
   const handleModalOpen = () => {
     setOpen(!open);
   };
@@ -52,7 +64,7 @@ const UserDetails = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Name</TableCell>
-                  <TableCell>MD Munim Rahman</TableCell>
+                  <TableCell>{firstName + " " + lastName}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -62,7 +74,15 @@ const UserDetails = () => {
                   <TableCell component="th" scope="row">
                     Employee Type
                   </TableCell>
-                  <TableCell>Employee</TableCell>
+                  <TableCell>{employeeType}</TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    Employee Id
+                  </TableCell>
+                  <TableCell>{empID}</TableCell>
                 </TableRow>
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -70,7 +90,7 @@ const UserDetails = () => {
                   <TableCell component="th" scope="row">
                     Division
                   </TableCell>
-                  <TableCell>Barishal</TableCell>
+                  <TableCell>{disvision}</TableCell>
                 </TableRow>
                 <TableRow
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -78,7 +98,7 @@ const UserDetails = () => {
                   <TableCell component="th" scope="row">
                     District
                   </TableCell>
-                  <TableCell>Barishal</TableCell>
+                  <TableCell>{district}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -89,6 +109,7 @@ const UserDetails = () => {
         open={open}
         handleModalOpen={handleModalOpen}
         modalTitle={"Edit User"}
+        user={user}
       />
     </>
   );
