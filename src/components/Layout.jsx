@@ -21,7 +21,7 @@ const Layout = () => {
       </AppBar>
 
       <Container
-        maxWidth="md"
+        maxWidth="lg"
         style={{
           display: "flex",
           justifyContent: "center",

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import Table from "@mui/material/Table";
@@ -10,16 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
-function createData(id, firstName, lastName, type, division, district) {
-  return { id, firstName, lastName, type, division, district };
-}
-
-const rows = [
-  createData(1, "Munim", "Rahman", "Employee", "Barishal", "Barishal"),
-  createData(1, "Munim", "Rahman", "Employee", "Barishal", "Barishal"),
-];
-
-export default function UserTable() {
+export default function UserTable({ users }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -35,20 +27,19 @@ export default function UserTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {users.map((user) => (
             <TableRow
-              key={row.name}
+              key={user.empID}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell align="center" component="th" scope="row">
-                {row.id}
+                {user.empID}
               </TableCell>
-
-              <TableCell align="center">{row.firstName}</TableCell>
-              <TableCell align="center">{row.lastName}</TableCell>
-              <TableCell align="center">{row.type}</TableCell>
-              <TableCell align="center">{row.division}</TableCell>
-              <TableCell align="center">{row.district}</TableCell>
+              <TableCell align="center">{user.firstName}</TableCell>
+              <TableCell align="center">{user.lastName}</TableCell>
+              <TableCell align="center">{user.employeeType}</TableCell>
+              <TableCell align="center">{user.disvision}</TableCell>
+              <TableCell align="center">{user.district}</TableCell>
               <TableCell align="center">
                 <Link to={"/user/1"}>
                   <Button variant="outlined" size="small">

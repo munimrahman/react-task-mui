@@ -1,4 +1,5 @@
-import * as React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -6,6 +7,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import UserTable from "./UserTable";
 import UserListHeader from "./UserListHeader";
+import { useGetUsersQuery } from "../features/users/userApi";
+import { useSelector } from "react-redux";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,12 +43,35 @@ function a11yProps(index) {
   };
 }
 
-export default function UserTabs() {
-  const [value, setValue] = React.useState(0);
+function searchUsers(users, query) {
+  const lowercaseQuery = query.toLowerCase();
+  return users?.filter(
+    (user) =>
+      user?.empID?.toString() === query ||
+      user?.firstName?.toLowerCase().includes(lowercaseQuery) ||
+      user?.lastName?.toLowerCase().includes(lowercaseQuery) ||
+      user?.disvision?.toLowerCase().includes(lowercaseQuery) ||
+      user?.district?.toLowerCase().includes(lowercaseQuery)
+  );
+}
 
+export default function UserTabs() {
+  const [value, setValue] = useState();
+  const { data, isLoading } = useGetUsersQuery();
+  const { readEmployeeData: users } = data || {};
+  const searchText = useSelector((state) => state.filter.search);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const admins = users?.filter((user) => user.employeeType === "Admin");
+  const employees = users?.filter((user) => user.employeeType === "Employee");
+
+  const searchAdmins = searchUsers(admins, searchText);
+  const searchEmployees = searchUsers(employees, searchText);
+
+  const allAdmins = searchText ? searchAdmins : admins;
+  const allEmployees = searchText ? searchEmployees : employees;
 
   return (
     <>
@@ -69,11 +95,11 @@ export default function UserTabs() {
         </Box>
         <TabPanel value={value} index={0}>
           <UserListHeader />
-          <UserTable />
+          <UserTable users={allAdmins} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <UserListHeader />
-          <UserTable />
+          <UserTable users={allEmployees} />
         </TabPanel>
       </Box>
     </>

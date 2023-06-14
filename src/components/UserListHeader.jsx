@@ -13,10 +13,13 @@ import {
 } from "@mui/material";
 import React from "react";
 import UserFormModal from "./UserFormModal";
+import { useDispatch, useSelector } from "react-redux";
+import { searchText } from "../features/filter/filterSlice";
 
 const UserListHeader = () => {
   const [open, setOpen] = React.useState(false);
-
+  const dispatch = useDispatch();
+  const searchTerm = useSelector((state) => state.filter.search);
   const handleModalOpen = () => {
     setOpen(!open);
   };
@@ -34,6 +37,8 @@ const UserListHeader = () => {
           placeholder="Search By Any Property"
           size="small"
           sx={{ backgroundColor: "white", width: "30%" }}
+          value={searchTerm}
+          onChange={(e) => dispatch(searchText(e.target.value))}
         />
         <Button variant="contained" onClick={handleModalOpen}>
           Add User
