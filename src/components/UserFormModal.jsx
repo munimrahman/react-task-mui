@@ -59,17 +59,17 @@ const UserFormModal = ({ open, handleModalOpen, modalTitle, user }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleModalOpen}>
-        <DialogTitle sx={{ textAlign: "center" }}>{modalTitle}</DialogTitle>
-        <DialogContent>
-          <Box
-            component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
-            onSubmit={formik.handleSubmit}
-          >
+        <Box
+          component="form"
+          sx={{
+            "& .MuiTextField-root": { m: 1, width: "25ch" },
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={formik.handleSubmit}
+        >
+          <DialogTitle sx={{ textAlign: "center" }}>{modalTitle}</DialogTitle>
+          <DialogContent>
             <div>
               <TextField
                 required
@@ -161,16 +161,12 @@ const UserFormModal = ({ open, handleModalOpen, modalTitle, user }) => {
                 </FormControl>
               </div>
             )}
-
-            <Button variant="contained" type="submit">
-              Add
-            </Button>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleModalOpen}>Cancel</Button>
-          <Button onClick={handleModalOpen}>Add User</Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleModalOpen}>Cancel</Button>
+            <Button onClick={handleModalOpen}>{modalTitle}</Button>
+          </DialogActions>
+        </Box>
       </Dialog>
     </div>
   );
