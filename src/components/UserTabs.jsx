@@ -72,6 +72,7 @@ export default function UserTabs() {
           <UserTable />
         </TabPanel>
         <TabPanel value={value} index={1}>
+          <UserListHeader />
           <UserTable />
         </TabPanel>
       </Box>

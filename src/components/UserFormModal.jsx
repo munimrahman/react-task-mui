@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import {
@@ -14,32 +15,18 @@ import {
   TextField,
 } from "@mui/material";
 
-const UserFormModal = () => {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+const UserFormModal = ({ open, handleModalOpen, modalTitle }) => {
   const [age, setAge] = React.useState("");
 
   const handleChangeS = (event) => {
     setAge(event.target.value);
   };
-
+  console.log(open);
   return (
     <div>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ textAlign: "center" }}>Add User</DialogTitle>
+      <Dialog open={open} onClose={handleModalOpen}>
+        <DialogTitle sx={{ textAlign: "center" }}>{modalTitle}</DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-              To subscribe to this website, please enter your email address
-              here. We will send updates occasionally.
-            </DialogContentText> */}
           <Box
             component="form"
             sx={{
@@ -115,8 +102,8 @@ const UserFormModal = () => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Add User</Button>
+          <Button onClick={handleModalOpen}>Cancel</Button>
+          <Button onClick={handleModalOpen}>Add User</Button>
         </DialogActions>
       </Dialog>
     </div>

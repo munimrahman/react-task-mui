@@ -12,23 +12,20 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
+import UserFormModal from "./UserFormModal";
 
 const UserListHeader = () => {
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleModalOpen = () => {
+    setOpen(!open);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const [age, setAge] = React.useState("");
 
-  const [age, setAge] = React.useState("");
-
-  const handleChangeS = (event) => {
-    setAge(event.target.value);
-  };
+  // const handleChangeS = (event) => {
+  //   setAge(event.target.value);
+  // };
 
   return (
     <>
@@ -38,18 +35,14 @@ const UserListHeader = () => {
           size="small"
           sx={{ backgroundColor: "white", width: "30%" }}
         />
-        <Button variant="contained" onClick={handleClickOpen}>
+        <Button variant="contained" onClick={handleModalOpen}>
           Add User
         </Button>
       </Box>
-      <div>
-        <Dialog open={open} onClose={handleClose}>
+      {/* <div>
+        <Dialog open={open} onClose={handleModalOpen}>
           <DialogTitle sx={{ textAlign: "center" }}>Add User</DialogTitle>
           <DialogContent>
-            {/* <DialogContentText>
-              To subscribe to this website, please enter your email address
-              here. We will send updates occasionally.
-            </DialogContentText> */}
             <Box
               component="form"
               sx={{
@@ -125,11 +118,16 @@ const UserListHeader = () => {
             </Box>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Add User</Button>
+            <Button onClick={handleModalOpen}>Cancel</Button>
+            <Button onClick={handleModalOpen}>Add User</Button>
           </DialogActions>
         </Dialog>
-      </div>
+      </div> */}
+      <UserFormModal
+        open={open}
+        handleModalOpen={handleModalOpen}
+        modalTitle={"Add User"}
+      />
     </>
   );
 };
