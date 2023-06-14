@@ -1,68 +1,19 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import BasicTable from "./Table";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   FormControl,
-  FormHelperText,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
   TextField,
 } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
-import FormDialog from "./Modal";
+import React from "react";
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-export default function BasicTabs() {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
+const UserListHeader = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -81,40 +32,15 @@ export default function BasicTabs() {
 
   return (
     <>
-      <Box sx={{ width: "100%" }}>
-        <Box
-          sx={{
-            borderBottom: 1,
-            borderColor: "divider",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="Users" {...a11yProps(0)} />
-            <Tab label="Employees" {...a11yProps(1)} />
-          </Tabs>
-        </Box>
-        <TabPanel value={value} index={0}>
-          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
-            <TextField
-              placeholder="Search By Any Property"
-              size="small"
-              sx={{ backgroundColor: "white", width: "25%" }}
-            />
-            <Button variant="contained" onClick={handleClickOpen}>
-              Add Employee
-            </Button>
-          </Box>
-          <BasicTable />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <BasicTable />
-        </TabPanel>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
+        <TextField
+          placeholder="Search By Any Property"
+          size="small"
+          sx={{ backgroundColor: "white", width: "30%" }}
+        />
+        <Button variant="contained" onClick={handleClickOpen}>
+          Add User
+        </Button>
       </Box>
       <div>
         <Dialog open={open} onClose={handleClose}>
@@ -169,6 +95,7 @@ export default function BasicTabs() {
                     Employee Type
                   </InputLabel>
                   <Select
+                    required
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
                     value={age}
@@ -205,4 +132,6 @@ export default function BasicTabs() {
       </div>
     </>
   );
-}
+};
+
+export default UserListHeader;

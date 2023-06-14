@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function createData(id, firstName, lastName, type, division, district) {
   return { id, firstName, lastName, type, division, district };
@@ -17,7 +19,7 @@ const rows = [
   createData(1, "Munim", "Rahman", "Employee", "Barishal", "Barishal"),
 ];
 
-export default function BasicTable() {
+export default function UserTable() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -48,9 +50,11 @@ export default function BasicTable() {
               <TableCell align="center">{row.division}</TableCell>
               <TableCell align="center">{row.district}</TableCell>
               <TableCell align="center">
-                <Button variant="outlined" size="small">
-                  Details
-                </Button>
+                <Link to={"/user/1"}>
+                  <Button variant="outlined" size="small">
+                    Details
+                  </Button>
+                </Link>
               </TableCell>
             </TableRow>
           ))}
