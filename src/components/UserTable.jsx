@@ -27,7 +27,7 @@ export default function UserTable({ users }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
+          {users?.map((user) => (
             <TableRow
               key={user.empID}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -41,7 +41,7 @@ export default function UserTable({ users }) {
               <TableCell align="center">{user.disvision}</TableCell>
               <TableCell align="center">{user.district}</TableCell>
               <TableCell align="center">
-                <Link to={"/user/1"}>
+                <Link to={`/user/${user.empID}`}>
                   <Button variant="outlined" size="small">
                     Details
                   </Button>

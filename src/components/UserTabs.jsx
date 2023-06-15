@@ -50,13 +50,14 @@ function searchUsers(users, query) {
       user?.empID?.toString() === query ||
       user?.firstName?.toLowerCase().includes(lowercaseQuery) ||
       user?.lastName?.toLowerCase().includes(lowercaseQuery) ||
+      user?.employeeType?.toLowerCase().includes(lowercaseQuery) ||
       user?.disvision?.toLowerCase().includes(lowercaseQuery) ||
       user?.district?.toLowerCase().includes(lowercaseQuery)
   );
 }
 
 export default function UserTabs() {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(0);
   const { data, isLoading } = useGetUsersQuery();
   const { readEmployeeData: users } = data || {};
   const searchText = useSelector((state) => state.filter.search);

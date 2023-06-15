@@ -13,24 +13,41 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+
+import { Link, useParams } from "react-router-dom";
 import UserFormModal from "../components/UserFormModal";
+import { useGetSingleUserQuery } from "../features/users/userApi";
 
 const UserDetails = () => {
+  const { id } = useParams();
   const [open, setOpen] = useState(false);
+  const { data, isLoading, isError } = useGetSingleUserQuery(id);
+  const { readEmployeeData = [] } = data || {};
 
-  let user = {
-    empID: 5,
-    firstName: "Arman",
-    lastName: "Saleh",
-    employeeType: "Employee",
-    divisionId: 1,
-    districeID: 3,
-    disvision: "Barisal       ",
-    district: "Bhola                         ",
-  };
-  const { empID, firstName, lastName, employeeType, disvision, district } =
-    user;
+  const {
+    empID,
+    firstName,
+    lastName,
+    employeeType,
+    disvision,
+    district,
+    divisionId,
+    districeID,
+  } = readEmployeeData[0] || {};
+
+  let user;
+
+  if (!isLoading && !isError) {
+    user = {
+      empID,
+      firstName,
+      lastName,
+      employeeType,
+      divisionId,
+      districeID,
+    };
+  }
+
   const handleModalOpen = () => {
     setOpen(!open);
   };
@@ -105,12 +122,14 @@ const UserDetails = () => {
           </TableContainer>
         </Box>
       </Container>
-      <UserFormModal
-        open={open}
-        handleModalOpen={handleModalOpen}
-        modalTitle={"Edit User"}
-        user={user}
-      />
+      {!isLoading && !isError && (
+        <UserFormModal
+          open={open}
+          handleModalOpen={handleModalOpen}
+          modalTitle={"Edit User"}
+          user={user}
+        />
+      )}
     </>
   );
 };

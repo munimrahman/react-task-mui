@@ -17,6 +17,13 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import {
+  useAddUserMutation,
+  useEditUserMutation,
+  useGetDistrictsQuery,
+  useGetDivisionsQuery,
+} from "../features/users/userApi";
+import { useDispatch } from "react-redux";
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required("First Name is Required"),
@@ -25,21 +32,26 @@ const validationSchema = Yup.object().shape({
 });
 
 const UserFormModal = ({ open, handleModalOpen, modalTitle, user }) => {
-  let initialState = {
-    firstName: "",
-    lastName: "",
-    employeeType: "",
-    division: "",
-    district: "",
-  };
+  const dispatch = useDispatch();
+  const [addUser, { isLoading, isError }] = useAddUserMutation();
+  const [editUser, { isSuccess }] = useEditUserMutation();
 
+  let initialState;
   if (modalTitle === "Edit User") {
     initialState = {
       firstName: user?.firstName,
       lastName: user?.lastName,
       employeeType: user?.employeeType,
-      division: user?.divisionId,
-      district: user?.districeID,
+      divisionId: user?.divisionId,
+      districeID: user?.districeID,
+    };
+  } else {
+    initialState = {
+      firstName: "",
+      lastName: "",
+      employeeType: "",
+      divisionId: "",
+      districeID: "",
     };
   }
 
@@ -47,13 +59,24 @@ const UserFormModal = ({ open, handleModalOpen, modalTitle, user }) => {
     initialValues: initialState,
     validationSchema: validationSchema,
     onSubmit: (data) => {
-      console.log(data);
+      if (modalTitle === "Add User") {
+        console.log(data);
+        dispatch(data);
+        console.log(isError);
+      } else if (modalTitle === "Edit User") {
+        dispatch(data);
+        console.log(isSuccess);
+      }
     },
   });
 
+  const { data: divisionsData } = useGetDivisionsQuery();
+  const { data: districtsData } = useGetDistrictsQuery(formik.values.division);
+  const { readDivisionData: divisions } = divisionsData || {};
+  const { readDistrictData: districts } = districtsData || {};
+
   if (formik.values.employeeType === "Employee") {
     // setUserType("Employee");
-    console.log(formik.values.employeeType);
   }
 
   return (
@@ -139,8 +162,11 @@ const UserFormModal = ({ open, handleModalOpen, modalTitle, user }) => {
                     name="division"
                     onChange={formik.handleChange}
                   >
-                    <MenuItem value={101}>Dhaka</MenuItem>
-                    <MenuItem value={20}>Barishal</MenuItem>
+                    {divisions?.map((division) => (
+                      <MenuItem key={division.divID} value={division.divID}>
+                        {division.divisionName}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <FormControl sx={{ m: 1, minWidth: "25ch" }}>
@@ -155,8 +181,14 @@ const UserFormModal = ({ open, handleModalOpen, modalTitle, user }) => {
                     name="district"
                     onChange={formik.handleChange}
                   >
-                    <MenuItem value={10222}>Pirojpur</MenuItem>
-                    <MenuItem value={203333}>Bhola</MenuItem>
+                    {districts?.map((district) => (
+                      <MenuItem
+                        key={district.districtID}
+                        value={district.districtID}
+                      >
+                        {district.districtName}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -164,7 +196,7 @@ const UserFormModal = ({ open, handleModalOpen, modalTitle, user }) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleModalOpen}>Cancel</Button>
-            <Button onClick={handleModalOpen}>{modalTitle}</Button>
+            <Button type="submit">{modalTitle}</Button>
           </DialogActions>
         </Box>
       </Dialog>
